@@ -26,6 +26,7 @@ export interface UserAuth {
 }
 
 export type UpdateUserRequest = {
+  id: string;
   name?: string;
   email?: string;
   password?: string;
