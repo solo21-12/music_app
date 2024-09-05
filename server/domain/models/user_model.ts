@@ -5,6 +5,7 @@ const UserSchema: Schema = new mongoose.Schema({
   name: { type: String, required: true },
   password: { type: String, required: true, select: false },
   sessionToken: { type: String, select: false },
+  accessToken: { type: String, select: false },
 });
 
 type UserDocument = Document & {
@@ -12,6 +13,7 @@ type UserDocument = Document & {
   name: string;
   password: string;
   sessionToken: string;
+  accessToken: string;
 };
 
 export const UserModel: Model<UserDocument> = model<UserDocument>(

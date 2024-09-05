@@ -57,6 +57,7 @@ export class UserRepository {
       return {
         password: user.password,
         email: user.email,
+        accessToken: user.accessToken,
       };
     } catch (error) {
       console.error("Error finding user by email:", error);

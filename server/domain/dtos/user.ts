@@ -22,6 +22,7 @@ export interface UserLoginResponse {
 export interface UserAuth {
   email: string;
   password: string;
+  accessToken?: string;
 }
 
 export type UpdateUserRequest = {

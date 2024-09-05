@@ -6,12 +6,14 @@ import Env from "../../config/env_config";
 import { PasswordService } from "../../infrastructure";
 import { UserController } from "../controllers";
 import { UserAuthRouter } from "./login_routes";
+import { Middlewares } from "../middlewares";
 
 const router = Router();
 const userRepo = new UserRepository();
 const env = new Env();
 const jwtService = new JwtService(env);
 const passwordService = new PasswordService(env);
+const auth_middlewares = new Middlewares(jwtService, userRepo);
 const userAuthUsecase = new UserAuthUsecase(
   userRepo,
   passwordService,
@@ -23,5 +25,6 @@ const userAuthControllr = new UserController(userAuthUsecase);
 const userRouter = new UserAuthRouter(userAuthControllr);
 
 router.use(userRouter.getRouter());
+router.use(auth_middlewares.authMiddleware);
 
 export default router;
