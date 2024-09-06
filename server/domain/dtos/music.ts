@@ -1,18 +1,13 @@
+import { Readable } from "stream";
+
 export interface MusicCreateRequest {
   title: string;
   artist: string;
   album: string;
   genre: string;
   url?: string;
-}
-
-export interface MusicCreateRequestFile {
-  title: string;
-  artist: string;
-  album: string;
-  genre: string;
-  yt_url?: string;
-  file: File;
+  key?: string;
+  file?: Readable;
 }
 
 export interface MusicUpdateRequest {
@@ -29,7 +24,8 @@ export interface MusicResponse {
   artist: string;
   album: string;
   genre: string;
-  url: string;
+  url?: string;
+  key?: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -24,7 +24,7 @@ export class MusicRepository {
         artist: savedMusic.artist,
         album: savedMusic.album,
         genre: savedMusic.genre,
-        url: savedMusic.url,
+        key: savedMusic.key,
         createdAt: savedMusic.createdAt,
         updatedAt: savedMusic.updatedAt,
       };
@@ -49,7 +49,7 @@ export class MusicRepository {
         artist: music.artist,
         album: music.album,
         genre: music.genre,
-        url: music.url,
+        key: music.key,
         createdAt: music.createdAt,
         updatedAt: music.updatedAt,
       };
@@ -73,7 +73,7 @@ export class MusicRepository {
         artist: m.artist,
         album: m.album,
         genre: m.genre,
-        url: m.url,
+        key: m.key,
         createdAt: m.createdAt,
         updatedAt: m.updatedAt,
       }));
@@ -102,7 +102,7 @@ export class MusicRepository {
         artist: updatedMusic.artist,
         album: updatedMusic.album,
         genre: updatedMusic.genre,
-        url: updatedMusic.url,
+        key: updatedMusic.key,
         createdAt: updatedMusic.createdAt,
         updatedAt: updatedMusic.updatedAt,
       };
@@ -129,11 +129,12 @@ export class MusicRepository {
     }
   }
 
-  async findByGenere(
-    genre: string
+  async findByField(
+    field: string,
+    value: string
   ): Promise<MusicGenereResponse[] | ErrorResponse> {
     try {
-      const music = await MusicModel.find({ genre });
+      const music = await MusicModel.find({ [field]: value });
 
       return music.map((m) => ({
         id: m._id.toString(),
@@ -141,59 +142,14 @@ export class MusicRepository {
         artist: m.artist,
         album: m.album,
         genre: m.genre,
-        url: m.url,
+        key: m.key,
+        url: "",
         createdAt: m.createdAt,
         updatedAt: m.updatedAt,
         count: music.length,
       }));
     } catch (error) {
       console.error("Error finding music by genre:", error);
-      return InternalServerError("Internal Server Error");
-    }
-  }
-
-  async findByArtist(
-    artist: string
-  ): Promise<MusicGenereResponse[] | ErrorResponse> {
-    try {
-      const music = await MusicModel.find({ artist });
-
-      return music.map((m) => ({
-        id: m._id.toString(),
-        title: m.title,
-        artist: m.artist,
-        album: m.album,
-        genre: m.genre,
-        url: m.url,
-        createdAt: m.createdAt,
-        updatedAt: m.updatedAt,
-        count: music.length,
-      }));
-    } catch (error) {
-      console.error("Error finding music by artist:", error);
-      return InternalServerError("Internal Server Error");
-    }
-  }
-
-  async findByAlbum(
-    album: string
-  ): Promise<MusicGenereResponse[] | ErrorResponse> {
-    try {
-      const music = await MusicModel.find({ album });
-
-      return music.map((m) => ({
-        id: m._id.toString(),
-        title: m.title,
-        artist: m.artist,
-        album: m.album,
-        genre: m.genre,
-        url: m.url,
-        createdAt: m.createdAt,
-        updatedAt: m.updatedAt,
-        count: music.length,
-      }));
-    } catch (error) {
-      console.error("Error finding music by album:", error);
       return InternalServerError("Internal Server Error");
     }
   }

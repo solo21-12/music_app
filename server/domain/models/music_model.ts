@@ -17,7 +17,7 @@ const MusicSchema: Schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  url: {
+  key: {
     type: String,
     required: true,
   },
@@ -38,7 +38,7 @@ type MusicDocument = Document & {
   artist: string;
   album: string;
   genre: string;
-  url: string;
+  key: string;
   createdAt: Date;
   updatedAt: Date;
 };

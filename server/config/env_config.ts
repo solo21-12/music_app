@@ -13,6 +13,10 @@ class Env {
   readonly SALT = 10;
   readonly ACCESS_TOKEN_EXPIRES_IN: number;
   readonly REFRESH_TOKEN_EXPIRES_IN: number;
+  readonly BUCKET: string;
+  readonly AWS_ACCESS_KEY_ID: string;
+  readonly AWS_SECRET_ACCESS_KEY: string;
+  readonly AWS_REGION: string;
 
   constructor() {
     this.DB_USER = process.env.DB_USER || "";
@@ -27,6 +31,10 @@ class Env {
       Number(process.env.ACCESS_TOKEN_EXPIRES_IN) || 60;
     this.REFRESH_TOKEN_EXPIRES_IN =
       Number(process.env.REFRESH_TOKEN_EXPIRES_IN) || 60 * 60 * 24 * 7;
+    this.BUCKET = process.env.BUCKET || "mybucket";
+    this.AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || "";
+    this.AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || "";;
+    this.AWS_REGION = process.env.AWS_REGION || "us-east-1";
   }
 }
 
