@@ -4,7 +4,7 @@ export type {
   UserAuth,
   UserLoginRequest,
   UserLoginResponse,
-  UpdateUserRequest
+  UpdateUserRequest,
 } from "./user";
 
 export {
@@ -20,5 +20,12 @@ export {
   UserNotFoundError,
   SessionNotFoundError,
   SessionExpiredError,
-  NotFoundError
+  NotFoundError,
 } from "./error_response";
+
+export {
+  MusicCreateRequest,
+  MusicResponse,
+  MusicUpdateRequest,
+  MusicListResponse,
+} from "./music";
