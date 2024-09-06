@@ -10,7 +10,6 @@ export class Middlewares {
   ) {}
 
   public async authMiddleware(req: any, res: any, next: any) {
-    // Ensure authorization header is present
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -19,7 +18,6 @@ export class Middlewares {
       });
     }
 
-    // Extract token from header
     const [scheme, token] = authHeader.split(" ");
 
     if (scheme !== "Bearer" || !token) {
@@ -28,7 +26,6 @@ export class Middlewares {
       });
     }
 
-    // Verify token
     const isValid = this.jwtService.verifyToken(token);
 
     if (!isValid) {
@@ -37,7 +34,6 @@ export class Middlewares {
       });
     }
 
-    // Fetch user from repository
     const user = await this.userRepo.findByEmail(isValid.email);
     if (!user || (user as UserAuth).accessToken !== token) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
@@ -45,7 +41,6 @@ export class Middlewares {
       });
     }
 
-    // Attach user to request object
     req.user = user;
     next();
   }

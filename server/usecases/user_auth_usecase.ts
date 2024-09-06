@@ -1,3 +1,4 @@
+import { Session } from "inspector/promises";
 import Env from "../config/env_config";
 import {
   ErrorResponse,
@@ -54,7 +55,10 @@ export class UserAuthUsecase {
       if (isValid) {
         const updatedUser = await this.userRepository.updateSessionToken(
           (user as UserAuth).email,
-          refreshToken
+          {
+            accessToken,
+            refreshToken,
+          }
         );
 
         if (updatedUser && (updatedUser as ErrorResponse).status) {
@@ -78,6 +82,13 @@ export class UserAuthUsecase {
       return NotFoundError("User already exists");
     }
 
+    const strength = await this.passwordService.checkPasswordStrength(
+      request.password
+    );
+    if (strength) {
+      return InvalidCredentialsError(strength);
+    }
+
     const hashedPassword = await this.passwordService.hashPassword(
       request.password
     );
@@ -98,7 +109,10 @@ export class UserAuthUsecase {
 
       const updatedUser = await this.userRepository.updateSessionToken(
         payload.email,
-        token
+        {
+          accessToken,
+          refreshToken: token,
+        }
       );
 
       if (updatedUser && (updatedUser as ErrorResponse).status) {

@@ -1,4 +1,4 @@
-import { InternalServerError } from "./../../domain/dtos/error_response";
+import { InternalServerError } from "../../domain/dtos/error_response";
 import { Router, Request, Response } from "express";
 import { UserController } from "../controllers";
 import { StatusCodes } from "http-status-codes";

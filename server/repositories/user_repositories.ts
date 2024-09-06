@@ -1,3 +1,4 @@
+import { Session } from "inspector/promises";
 import {
   UserCreateRequest,
   UpdateUserRequest,
@@ -7,6 +8,7 @@ import {
   UserAuth,
 } from "../domain/dtos";
 import { UserModel } from "../domain/models";
+import { SessionUpdateRequest } from "../domain/dtos/user";
 
 export class UserRepository {
   async create(user: UserCreateRequest): Promise<UserResponse> {
@@ -47,7 +49,7 @@ export class UserRepository {
   async findByEmail(email: string): Promise<UserAuth | ErrorResponse> {
     try {
       const user = await UserModel.findOne({ email }).select(
-        "name email password"
+        "name email password accessToken"
       );
 
       if (!user) {
@@ -123,12 +125,17 @@ export class UserRepository {
 
   async updateSessionToken(
     email: string,
-    token: string
+    token: SessionUpdateRequest
   ): Promise<ErrorResponse | null> {
     try {
       const user = await UserModel.findOneAndUpdate(
         { email },
-        { $set: { sessionToken: token } }
+        {
+          $set: {
+            sessionToken: token.refreshToken,
+            accessToken: token.accessToken,
+          },
+        }
       );
 
       if (!user) {
@@ -146,7 +153,7 @@ export class UserRepository {
     try {
       const user = await UserModel.findOneAndUpdate(
         { email },
-        { $set: { sessionToken: "" } }
+        { $set: { sessionToken: "", accessToken: "" } }
       );
 
       if (!user) {

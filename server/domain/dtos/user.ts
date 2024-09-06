@@ -26,8 +26,12 @@ export interface UserAuth {
 }
 
 export type UpdateUserRequest = {
-  id: string;
   name?: string;
   email?: string;
   password?: string;
 };
+
+export interface SessionUpdateRequest {
+  accessToken: string;
+  refreshToken: string;
+}
