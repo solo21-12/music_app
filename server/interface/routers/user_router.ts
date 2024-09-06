@@ -11,63 +11,20 @@ export class UserRouter {
   }
 
   public routes(): void {
-    this.router.get("/users/:id", async (req: Request, res: Response) => {
-      try {
-        const id = req.params.id;
-        const user = await this.userController.getUserProfile(id);
+    this.router.get(
+      "/users/:id",
+      this.userController.getUserProfile.bind(this.userController)
+    );
 
-        if (user && (user as ErrorResponse).status) {
-          res
-            .status((user as ErrorResponse).status)
-            .json({ message: (user as ErrorResponse).message });
-        } else {
-          res.status(StatusCodes.OK).json(user);
-        }
-      } catch (err) {
-        res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: "An unexpected error occurred" });
-      }
-    });
+    this.router.patch(
+      "/users/:id",
+      this.userController.updateUserProfile.bind(this.userController)
+    );
 
-    this.router.patch("/users/:id", async (req: Request, res: Response) => {
-      try {
-        const id = req.params.id;
-        const body: UpdateUserRequest = req.body;
-        const user = await this.userController.updateUserProfile(id, body);
-
-        if (user && !(user as ErrorResponse).status) {
-          res.status(StatusCodes.OK).json(user);
-        } else {
-          res
-            .status((user as ErrorResponse).status)
-            .json({ message: (user as ErrorResponse).message });
-        }
-      } catch (err) {
-        res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: "An unexpected error occurred" });
-      }
-    });
-
-    this.router.delete("/users/:id", async (req: Request, res: Response) => {
-      try {
-        const id = req.params.id;
-        const user = await this.userController.deleteUserProfile(id);
-
-        if (user && (user as ErrorResponse).status) {
-          res
-            .status((user as ErrorResponse).status)
-            .json({ message: (user as ErrorResponse).message });
-        } else {
-          res.status(StatusCodes.NO_CONTENT).json({ message: "User deleted" });
-        }
-      } catch (err) {
-        res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: "An unexpected error occurred" });
-      }
-    });
+    this.router.delete(
+      "/users/:id",
+      this.userController.deleteUserProfile.bind(this.userController)
+    );
   }
 
   public getRouter(): Router {

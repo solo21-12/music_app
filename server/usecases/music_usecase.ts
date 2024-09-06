@@ -161,7 +161,7 @@ export class MusicUsecase {
   }
 
   // Retrieve all music with presigned URLs
-  async findAllMusic(
+  async getMusicList(
     pageNumber: number
   ): Promise<MusicResponse[] | ErrorResponse> {
     try {
@@ -177,7 +177,7 @@ export class MusicUsecase {
     }
   }
 
-  private async findMusicByField(
+  async findMusicByField(
     field: string,
     value: string
   ): Promise<MusicResponse[] | ErrorResponse> {
@@ -192,23 +192,5 @@ export class MusicUsecase {
       console.error(`Error finding music by ${field}: ${error}`);
       return InternalServerError(`Error finding music by ${field}`);
     }
-  }
-
-  async findMusicByGenre(
-    genre: string
-  ): Promise<MusicResponse[] | ErrorResponse> {
-    return this.findMusicByField("genre", genre);
-  }
-
-  async findMusicByArtist(
-    artist: string
-  ): Promise<MusicResponse[] | ErrorResponse> {
-    return this.findMusicByField("artist", artist);
-  }
-
-  async findMusicByAlbum(
-    album: string
-  ): Promise<MusicResponse[] | ErrorResponse> {
-    return this.findMusicByField("album", album);
   }
 }
